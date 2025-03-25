@@ -1,0 +1,1 @@
+export { IsValidStatusCode } from "./http-valid-status-code.validator";
