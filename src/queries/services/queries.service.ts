@@ -157,13 +157,13 @@ export class QueriesService {
       });
   
     } catch (error) {
-      console.log(`error:`, error.stack)
+      console.log(`error:`, error)
       this.logFormatterService.logError({
         logIdentifier: this.logIdentifier,
         action: 'getPatientAppointmentsWithStatusOtherThanCanceled',
         message: `Error en consulta de citas: ${error.message}`,
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        payload: { query: query!, connection: connection },
+        payload: { query: query!, connection: connection, error: error },
       });
   
       const unexpectedErrorResponse: BaseResponse<string[]> = {
@@ -266,13 +266,13 @@ export class QueriesService {
       });
   
     } catch (error) {
-      console.log(`error:`, error.stack)
+      console.log(`error:`, error)
       this.logFormatterService.logError({
         logIdentifier: this.logIdentifier,
         action: 'getPatientAppointmentsWithCanceledStatus',
         message: `Error en consulta de citas canceladas: ${error.message}`,
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        payload: { query: query!, connection: connection },
+        payload: { query: query!, connection: connection, error: error },
       });
   
       const unexpectedErrorResponse: BaseResponse<string[]> = {

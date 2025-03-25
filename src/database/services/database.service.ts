@@ -77,11 +77,13 @@ export class DatabaseService implements OnModuleInit  {
       return connection;
 
     } catch (error) {
+      console.log(`error:`, error)
       this.logFormatterService.logError({
         logIdentifier: this.logIdentifier,
         action: 'createConnection',
         message: 'Error al conectar con Informix.',
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        payload: { error: error } //! colocar en el common
       });
 
       const errorResponse: BaseResponse<string[]> = {
