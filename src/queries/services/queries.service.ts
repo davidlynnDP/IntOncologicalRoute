@@ -13,7 +13,7 @@ import {
 import { 
   sqlPatientAppointmentsWithCanceledStatus,
   sqlPatientAppointmentsWithStatusOtherThanCanceled,
-} from "../sql"
+} from '../sql';
 
 import { 
   DateTimeRangeRequestDto,
