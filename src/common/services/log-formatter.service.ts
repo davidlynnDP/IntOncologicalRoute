@@ -21,7 +21,6 @@ export class LogFormatterService  {
    * @param action - The name of the action being logged.
    * @param message - Additional information about the action.
    * @param statusCode - The HTTP status code associated with the action (default is 200).
-   * @param serviceName - The name of the service or module logging the action.
    * @param payload - (Optional) Additional data related to the request, useful for debugging.
    */
   logAction(
@@ -42,8 +41,6 @@ export class LogFormatterService  {
    * @param action - The action that triggered the error.
    * @param message - Describes the error or problem that occurred.
    * @param statusCode - The HTTP status code related to the error (default is 500).
-   * @param stack - Optional stack trace for debugging purposes.
-   * @param serviceName - The name of the service or module where the error occurred.
    * @param payload - (Optional) Additional data related to the request, useful for debugging.
    */
   logError(
