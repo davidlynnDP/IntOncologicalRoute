@@ -1,7 +1,5 @@
 export { 
-  SQL_HEADQUARTERS,
-  SQL_LOCATIONS_BY_SERVICE,
-  SQL_ORDER_STATES,
-  SQL_SERVICES_BY_HEADQUARTERS,
+  sqlPatientAppointmentsWithCanceledStatus,
+  sqlPatientAppointmentsWithStatusOtherThanCanceled,
 } from "./sql-statements"
 

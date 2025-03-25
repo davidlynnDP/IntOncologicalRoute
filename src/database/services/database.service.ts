@@ -14,26 +14,45 @@ export class DatabaseService implements OnModuleInit  {
   private logIdentifier: string = DatabaseService.name;
 
   constructor(
-      private readonly logFormatterService: LogFormatterService
-      //examples
-      //info
-      // this.commonService.logAction({
-      //   logIdentifier: this.logIdentifier,
-      //   action: 'onModuleInit',
-      //   message: 'UsersService module initialized and connected to database',
-      //   serviceName: this.serviceName,
-      //   statusCode: 200,
-      // });
+    private readonly logFormatterService: LogFormatterService
+    //examples
+    //info
+    // this.logFormatterService.logAction({
+    //   logIdentifier: this.logIdentifier,
+    //   action: 'onModuleInit',
+    //   message: 'Módulo UsersService inicializado y conectado a la base de datos', //? en español
+    //   serviceName: this.serviceName,
+    //   statusCode: HttpStatus.OK, //?siempre usar la enumeracion de HttpStatus
+    // });
 
-      //catch
-      // commonService.logError({
-      //   logIdentifier: this.logIdentifier,
-      //   action: 'updatePatient',
-      //   message: 'Failed to update patient record',
-      //   statusCode: 500,
-      //   stack: error.stack,
-      //   serviceName: this.serviceName
-      // });
+    // this.logFormatterService.logAction({
+    //   logIdentifier: this.logIdentifier,
+    //   action: 'getLocationsByService',
+    //   message: 'Iniciando consulta de ubicaciones por servicio.', //? en español
+    //   serviceName: this.serviceName,
+    //   statusCode: HttpStatus.OK, //?siempre usar la enumeracion de HttpStatus
+    //   payload: { dto: dto }, //?siempre ser lo mas explicito en los objetos del payload
+    // });
+
+    // this.logFormatterService.logAction({
+    //   logIdentifier: this.logIdentifier,
+    //   action: 'getLocationsByService',
+    //   message: 'Ejecutando consulta de ubicaciones por servicio.', //? en español
+    //   serviceName: this.serviceName,
+    //   statusCode: HttpStatus.OK, //?siempre usar la enumeracion de HttpStatus
+    //   payload: { query: SQL_LOCATIONS_BY_SERVICE, params: params }, //?siempre ser lo mas explicito en los objetos del payload
+    // });
+
+    //error
+    //?si es necesario, las mismas consideraciones de info, se aplican a cualquier clase de error debido a que se maneja la misma estrcutra para ambos metodos
+    // this.logFormatterService.logError({
+    //   logIdentifier: this.logIdentifier,
+    //   action: 'updatePatient',
+    //   message: 'No se pudo actualizar el registro de la paciente', //? en español
+    //   statusCode: HttpStatus.INTERNAL_SERVER_ERROR, //?siempre usar la enumeracion de HttpStatus
+    //   stack: error.stack, //?solo poner cuando se esta en el bloque del catch
+    //   serviceName: this.serviceName
+    // });
   ) { }
 
   async onModuleInit() {
