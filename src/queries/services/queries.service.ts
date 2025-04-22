@@ -8,19 +8,29 @@ import { LogFormatterService } from '../../common/services/log-formatter.service
 
 import { 
   IPatientAppointment,
+
+  IActivePatientById,
 } from '../models';
 
 import { 
   sqlPatientAppointmentsWithCanceledStatus,
   sqlPatientAppointmentsWithStatusOtherThanCanceled,
+
+  sqlGetActivePatientById,
 } from '../sql';
 
 import { 
   DateTimeRangeRequestDto,
+
+  ActivePatientByIdRequestDto,
 } from '../dto';
 
 type PatientAppointmentsResponse = Response<
   BaseResponse<string[]> | BaseResponse<IPatientAppointment[]>
+>;
+
+type ActivePatientByIdResponse = Response<
+  BaseResponse<string[]> | BaseResponse<IActivePatientById[]>
 >;
 
 @Injectable()
@@ -290,4 +300,69 @@ export class QueriesService {
     }
   }
 
+  async getActivePatientById(
+    dto: ActivePatientByIdRequestDto,
+    res: Response
+  ): Promise<ActivePatientByIdResponse> {
+  
+    const action = 'getActivePatientById';
+    const { typeOfIdentification, identificationNumber } = dto;
+  
+    const query = sqlGetActivePatientById({ typeOfIdentification, identificationNumber });
+  
+    const activePatientById = await this.servinteDatabaseService.executeQuery<IActivePatientById[]>(
+      query,
+      [], //? estos son los params
+    );
+  
+    if (isAnErrorResponse(activePatientById)) {
+      this.logFormatterService.logError({
+        logIdentifier: this.logIdentifier,
+        action: action,
+        message: activePatientById.message.join(', '),
+        statusCode: activePatientById.statusCode,
+      });
+  
+      return res.status(activePatientById.statusCode).json(activePatientById);
+    }
+  
+    if (isANoDataResponse(activePatientById)) {
+      this.logFormatterService.logAction({
+        logIdentifier: this.logIdentifier,
+        action: action,
+        message: `No se encontró ningún paciente con identificación ${identificationNumber} y tipo ${typeOfIdentification}.`,
+        statusCode: activePatientById.statusCode,
+      });
+  
+      return res.status(activePatientById.statusCode).json(activePatientById);
+    }
+  
+    const transformedActivePatientById: IActivePatientById[] = activePatientById.message.map(
+      (item: IActivePatientById) => ({
+        ...item,
+        direccion: item.direccion?.trim() ?? null,
+        ubicacion: item.ubicacion.trim(),
+        servicio: item.servicio.trim(),
+        estado_paciente: item.estado_paciente.trim(),
+      })
+    );
+  
+    this.logFormatterService.logAction({
+      logIdentifier: this.logIdentifier,
+      action: action,
+      message: `Paciente recuperado exitosamente por identificación ${identificationNumber}.`,
+      statusCode: activePatientById.statusCode,
+      payload: {
+        totalRecords: transformedActivePatientById.length,
+        activePatients: transformedActivePatientById,
+      },
+    });
+  
+    return res.status(HttpStatus.OK).json({
+      message: transformedActivePatientById,
+      status: 'OK',
+      statusCode: HttpStatus.OK,
+    });
+  }
+  
 }

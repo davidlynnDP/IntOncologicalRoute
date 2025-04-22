@@ -1,5 +1,7 @@
 export { 
   sqlPatientAppointmentsWithCanceledStatus,
   sqlPatientAppointmentsWithStatusOtherThanCanceled,
-} from "./sql-statements"
+
+  sqlGetActivePatientById,
+} from './sql-statements'
 
